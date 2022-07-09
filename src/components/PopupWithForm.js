@@ -15,10 +15,9 @@ function PopupWithForm({ name, title, titleButton, children, isOpen, onClose }) 
   
 return (
     <>
- <div className={`popup popup_form_${name}` + (isOpen && 'popup_opened')}
- handleOverlayClose={(event) => event.target === event.currentTarget && onClose()}>
- <div className="popup__container"
- onClick={(event) => handleOverlayClose(event)}>
+ <div className={`popup popup_${name}` + (isOpen && ' popup_opened')}
+ onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
+ <div className="popup__container">
    <button className="popup__close"
     type="button">
          <img className="popup__close-image" src={closePath} alt="Закрыть"
