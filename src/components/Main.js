@@ -8,7 +8,7 @@ function Main({
     onEditProfile,
     onAddPlace,
     onCardClick,
-    textSabmitBtn,
+    renderBtnText,
 }) {
     const [userName, setUserName] = useState([]);
     const [userDescription, setUserDescription] = useState([]);
@@ -25,16 +25,15 @@ function Main({
         });
       }, []);
 
-
     return (
         <>
-
-<main classNameName="content">
-    <section className="profile">
-      <div className="profile__avatar-container">
-    <img className="profile__avatar" src={userAvatar} alt="Аватар"/>
-    <button className="profile__avatar-btn" type="button" onClick={onEditAvatar}></button>
-  </div>
+<main className="content">
+  <section className="profile">
+    <div className="profile__avatar-container">
+      <img className="profile__avatar" src={userAvatar} alt="Аватар"/>
+      <button className="profile__avatar-btn" type="button" onClick={onEditAvatar}>
+      </button>
+    </div>
     <div className="profile__info">
       <h1 className="profile__title">{userName}</h1>
       <button className="profile__button-edit" type="button" onClick={onEditProfile}>
@@ -44,7 +43,8 @@ function Main({
    <button className="profile__button-add" type="button" onClick={onAddPlace}>
    </button>
   </section>
-   <section className="еlements">
+  <section className="еlements">
+    <ul className="еlements__container">
     {cards.map((item) => {
             return (
               <Card
@@ -54,14 +54,15 @@ function Main({
                 link={item.link}
                 count={item.likes.length}
                 onCardClick={onCardClick}
-                textSabmitBtn={textSabmitBtn}
+                renderBtnText={renderBtnText}
                 />
                 );
               })}
+    </ul>
   </section>
   </main>
   </>
-    );
+ );
 }
 
 export default Main;
