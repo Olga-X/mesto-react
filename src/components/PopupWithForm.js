@@ -7,6 +7,10 @@ function PopupWithForm({
   children,
   isOpen,
   onClose,
+  isEditAvatarPopupOpen,
+  isEditProfilePopupOpen,
+  isAddPlacePopupOpen,
+  selectedCard,
 }) {
   function handleEscClose(evt) {
     if (evt.key === "Escape") {
@@ -17,7 +21,12 @@ function PopupWithForm({
   React.useEffect(() => {
     document.addEventListener("keydown", handleEscClose);
     return () => document.removeEventListener("keydown", handleEscClose);
-  }, []);
+  }, [
+    isEditAvatarPopupOpen,
+    isEditProfilePopupOpen,
+    isAddPlacePopupOpen,
+    selectedCard,
+  ]);
 
   return (
     <>
