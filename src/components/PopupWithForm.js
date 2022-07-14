@@ -21,9 +21,6 @@ function PopupWithForm({
     <>
       <div
         className={`popup popup_${name}` + (isOpen && " popup_opened")}
-        onMouseDown={(event) =>
-          event.target === event.currentTarget && onClose()
-        }
       >
         <div className="popup__container">
           <button className="popup__close" type="button">
