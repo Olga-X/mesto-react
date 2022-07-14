@@ -35,6 +35,12 @@ function App() {
     setSelectedCard({});
   }
 
+  function handleEscClose(evt) {
+    if (evt.key === "Escape") {
+      closeAllPopups();
+    }
+  }
+
   return (
     <div className="page">
       <Header />
@@ -45,13 +51,18 @@ function App() {
         onCardClick={handleCardClick}
       />
       <Footer />
-      <ImagePopup onClose={closeAllPopups} card={selectedCard} />
+      <ImagePopup
+        onClose={closeAllPopups}
+        card={selectedCard}
+        handleEscClose={handleEscClose}
+      />
       <PopupWithForm
         title="Обновить аватар"
         name="avatar"
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
         renderBtnText={"Сохранить"}
+        handleEscClose={handleEscClose}
       >
         <input
           type="url"
@@ -70,6 +81,7 @@ function App() {
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
         renderBtnText={"Сохранить"}
+        handleEscClose={handleEscClose}
       >
         <input
           type="text"
@@ -101,6 +113,7 @@ function App() {
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
         renderBtnText={"Создать"}
+        handleEscClose={handleEscClose}
       >
         <input
           type="text"

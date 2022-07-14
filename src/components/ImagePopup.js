@@ -1,14 +1,14 @@
 import React from "react";
 import closePath from "../images/close-icon.svg";
 
-function ImagePopup({ isOpen, onClose, card, handleEscClose }) {
+function ImagePopup({ onClose, card, handleEscClose }) {
   React.useEffect(() => {
-    if (isOpen === true) {
+    if (card.name) {
       document.addEventListener("keydown", handleEscClose);
     }
 
     return () => document.removeEventListener("keydown", handleEscClose);
-  }, [isOpen]);
+  }, [card]);
 
   return (
     <>

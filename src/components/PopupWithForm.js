@@ -7,13 +7,8 @@ function PopupWithForm({
   children,
   isOpen,
   onClose,
+  handleEscClose,
 }) {
-  function handleEscClose(evt) {
-    if (evt.key === "Escape") {
-      onClose();
-    }
-  }
-
   React.useEffect(() => {
     if (isOpen === true) {
       document.addEventListener("keydown", handleEscClose);
