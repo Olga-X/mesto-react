@@ -1,36 +1,41 @@
 import { useContext } from "react";
 import CurrentUserContext from "../contexts/CurrentUserContext.js";
 
-function Card({  name, link, count, onCardClick, onCardLike, onCardDelete, card, onDeleteCardClick, }) {
+function Card({
+  name,
+  link,
+  count,
+  onCardClick,
+  onCardLike,
+  onCardDelete,
+  card,
+}) {
   const currentUser = useContext(CurrentUserContext);
 
-
-   // отображение мусорки
+  // Отображение кнопки корзины удаления
   const isOwn = card.owner._id === currentUser._id;
   const cardDeleteButtonClassName = `element__btn-trash ${
     isOwn ? "element__btn-trash_visible" : ""
   }`;
 
-  // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
+  // Определяем лайк, поставленный пользователем
   const isLiked = card.likes.some((item) => item._id === currentUser._id);
   const cardLikeButtonClassName = `еlement__like ${
     isLiked ? "еlement__like_active" : ""
   }`;
 
-  // событие клика на картинку
+  // События клика
   function handleClick() {
     onCardClick(card);
   }
 
-  // событие лайка
   function handleLikeClick() {
     onCardLike(card);
   }
 
-    // событие клика накнопку удаления
-    function handleDeleteClick() {
-      onCardDelete(card);
-    }
+  function handleDeleteClick() {
+    onCardDelete(card);
+  }
 
   return (
     <>

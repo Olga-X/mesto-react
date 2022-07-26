@@ -2,34 +2,34 @@ import { useState, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm.js";
 
 export default function AddPlacePopup({
-    isOpen,
-    onClose,
-    onAddPlace,
-    isLoading,
-    handleEscClose
-  }) {
-    const [values, setValues] = useState({ name: "", link: "" });
+  isOpen,
+  onClose,
+  onAddPlace,
+  isLoading,
+  handleEscClose,
+}) {
+  const [values, setValues] = useState({ name: "", link: "" });
 
-    useEffect(() => {
-      setValues({ name: "", about: "" });
-    }, [isOpen]);
-  
-    function handleChange(evt) {
-      const { value, name } = evt.target;
-      setValues({ ...values, [name]: value });
-    }
-  
-    function handleSubmit(e) {
-        e.preventDefault();
-        onAddPlace({
-          name: values.name,
-          link: values.link,
-        });
-      }
-    
-  
-    return (
-      <PopupWithForm
+  useEffect(() => {
+    setValues({ name: "", about: "" });
+  }, [isOpen]);
+
+  function handleChange(evt) {
+    const { value, name } = evt.target;
+    setValues({ ...values, [name]: value });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    onAddPlace({
+      name: values.name,
+      link: values.link,
+    });
+  }
+
+  return (
+    <PopupWithForm
       title="Новое место"
       name="form_add-card"
       isOpen={isOpen}
@@ -65,5 +65,5 @@ export default function AddPlacePopup({
       />
       <span className="form__error url-input-error"></span>
     </PopupWithForm>
-      );
-    }
+  );
+}

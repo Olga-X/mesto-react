@@ -34,35 +34,35 @@ function App() {
       });
   }, []);
 
-    // проверяем лайк на этой карточке
-    function handleCardLike(card) {
-      const isLiked = card.likes.some((i) => i._id === currentUser._id);
-  
-      if (isLiked) {
-        api
-          .deleteLike(card._id)
-          .then((newCard) => {
-            setCards((state) =>
-              state.map((c) => (c._id === card._id ? newCard : c))
-            );
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        api
-          .setLike(card._id)
-          .then((newCard) => {
-            setCards((state) =>
-              state.map((c) => (c._id === card._id ? newCard : c))
-            );
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
+  // Проверяем лайк на карточке
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+
+    if (isLiked) {
+      api
+        .deleteLike(card._id)
+        .then((newCard) => {
+          setCards((state) =>
+            state.map((c) => (c._id === card._id ? newCard : c))
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      api
+        .setLike(card._id)
+        .then((newCard) => {
+          setCards((state) =>
+            state.map((c) => (c._id === card._id ? newCard : c))
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-  // функция удаления карточки
+  }
+  // Удаляем карточки
   function handleCardDelete(card) {
     setIsLoading(true);
     api
@@ -74,7 +74,7 @@ function App() {
       .finally(() => setIsLoading(false));
   }
 
-  // функция изменения информации о пользователе
+  // Изменяем информацию о пользователе
   function handleUpdateUser(data) {
     setIsLoading(true);
     api
@@ -89,22 +89,22 @@ function App() {
       .finally(() => setIsLoading(false));
   }
 
-// функция изменения аватара
-function handleUpdateAvatar({avatar}) {
-  setIsLoading(true);
-  api
-    .setAvatar(avatar)
-    .then((res) => {
-      setCurrentUser(res);
-      closeAllPopups();
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => setIsLoading(false));
-}
+  // Изменяем аватар
+  function handleUpdateAvatar(data) {
+    setIsLoading(true);
+    api
+      .setAvatar(data)
+      .then((res) => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => setIsLoading(false));
+  }
 
-  // функция добавления карточки
+  // Добовляем карточки
   function handleAddCard(data) {
     setIsLoading(true);
     api

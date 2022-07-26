@@ -30,12 +30,12 @@ class Api {
     }).then(this._checkResponse);
   }
 
-  setAvatar({avatar}) {
+  setAvatar({ avatar }) {
     return fetch(`${this._url}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        avatar: avatar
+        avatar: avatar,
       }),
     }).then(this._checkResponse);
   }

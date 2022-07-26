@@ -22,9 +22,7 @@ function PopupWithForm({
 
   return (
     <>
-      <div
-        className={`popup popup_${name}` + (isOpen && " popup_opened")}
-      >
+      <div className={`popup popup_${name}` + (isOpen && " popup_opened")}>
         <div className="popup__container">
           <button className="popup__close" type="button">
             <img
@@ -46,7 +44,7 @@ function PopupWithForm({
           >
             {children}
             <button type="submit" className="button form__submit">
-            {isLoading ? loadingText : renderBtnText} 
+              {isLoading ? loadingText : renderBtnText}
             </button>
           </form>
         </div>
