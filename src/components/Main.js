@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-
+import { useContext } from "react";
 import Card from "./Card.js";
 import CurrentUserContext from "../contexts/CurrentUserContext.js";
 
@@ -28,7 +27,7 @@ function Main({
             ></button>
           </div>
           <div className="profile__info">
-            <h1 className="profile__title">{userName}</h1>
+            <h1 className="profile__title">{currentUser.name}</h1>
             <button
               className="profile__button-edit"
               type="button"

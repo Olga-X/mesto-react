@@ -6,6 +6,7 @@ export default function EditAvatarPopup({
   onClose,
   onUpdateAvatar,
   isLoading,
+  handleEscClose
 }) {
   const avatarRef = useRef();
 
@@ -13,12 +14,13 @@ export default function EditAvatarPopup({
     avatarRef.current.value = "";
   }, [isOpen]);
 
-  function handleSubmit(evt) {
-    evt.preventDefault();
+  function handleSubmit(e) {
+    e.preventDefault();
+  
     onUpdateAvatar({
-      avatar: avatarRef.current.value,
+      avatar: avatarRef.current.value
     });
-  }
+  } 
 
   return (
     <PopupWithForm

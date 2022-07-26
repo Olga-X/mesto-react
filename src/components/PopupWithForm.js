@@ -4,9 +4,12 @@ function PopupWithForm({
   name,
   title,
   renderBtnText,
+  isLoading,
+  loadingText,
   children,
   isOpen,
   onClose,
+  onSubmit,
   handleEscClose,
 }) {
   React.useEffect(() => {
@@ -37,12 +40,13 @@ function PopupWithForm({
             className="form"
             name={name}
             id="editPopupForm"
+            onSubmit={onSubmit}
             method="get"
             noValidate
           >
             {children}
             <button type="submit" className="button form__submit">
-              {renderBtnText}
+            {isLoading ? loadingText : renderBtnText} 
             </button>
           </form>
         </div>

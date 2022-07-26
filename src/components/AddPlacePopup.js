@@ -4,8 +4,9 @@ import PopupWithForm from "./PopupWithForm.js";
 export default function AddPlacePopup({
     isOpen,
     onClose,
-    onAddCard,
+    onAddPlace,
     isLoading,
+    handleEscClose
   }) {
     const [values, setValues] = useState({ name: "", link: "" });
 
@@ -18,10 +19,14 @@ export default function AddPlacePopup({
       setValues({ ...values, [name]: value });
     }
   
-    function handleSubmit(evt) {
-      evt.preventDefault();
-      onAddCard(values);
-    }
+    function handleSubmit(e) {
+        e.preventDefault();
+        onAddPlace({
+          name: values.name,
+          link: values.link,
+        });
+      }
+    
   
     return (
       <PopupWithForm

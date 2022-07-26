@@ -26,9 +26,7 @@ function App() {
   useEffect(() => {
     Promise.all([api.getUser(), api.getInitialCards()])
       .then(([userData, cardData]) => {
-        setUserName(userData.name);
-        setUserDescription(userData.about);
-        setUserAvatar(userData.avatar);
+        setCurrentUser(userData);
         setCards(cardData);
       })
       .catch((err) => {
@@ -36,16 +34,34 @@ function App() {
       });
   }, []);
 
-  // лайк
-  function handleCardLike(card) {
-    // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
-
-    // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
-    });
-  }
+    // проверяем лайк на этой карточке
+    function handleCardLike(card) {
+      const isLiked = card.likes.some((i) => i._id === currentUser._id);
+  
+      if (isLiked) {
+        api
+          .deleteLike(card._id)
+          .then((newCard) => {
+            setCards((state) =>
+              state.map((c) => (c._id === card._id ? newCard : c))
+            );
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        api
+          .setLike(card._id)
+          .then((newCard) => {
+            setCards((state) =>
+              state.map((c) => (c._id === card._id ? newCard : c))
+            );
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    }
   // функция удаления карточки
   function handleCardDelete(card) {
     setIsLoading(true);
@@ -58,11 +74,11 @@ function App() {
       .finally(() => setIsLoading(false));
   }
 
-  // функция изменения информации о пользователе - name, about
-  function handleUpdateUser(userInfo) {
+  // функция изменения информации о пользователе
+  function handleUpdateUser(data) {
     setIsLoading(true);
     api
-      .setUserInfo(userInfo)
+      .setUser(data)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
@@ -73,34 +89,36 @@ function App() {
       .finally(() => setIsLoading(false));
   }
 
-  // функция изменения аватара
-  function handleUpdateAvatar(userInfo) {
-    setIsLoading(true);
-    api
-      .editAvatar(userInfo)
-      .then((res) => {
-        setCurrentUser(res);
-        closeAllPopups();
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => setIsLoading(false));
-  }
+// функция изменения аватара
+function handleUpdateAvatar({avatar}) {
+  setIsLoading(true);
+  api
+    .setAvatar(avatar)
+    .then((res) => {
+      setCurrentUser(res);
+      closeAllPopups();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => setIsLoading(false));
+}
 
   // функция добавления карточки
-  function handleAddCard(newCard) {
+  function handleAddCard(data) {
     setIsLoading(true);
     api
-      .addCard(newCard)
-      .then((res) => {
-        setCards([res, ...cards]);
+      .addCard(data)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
         closeAllPopups();
       })
       .catch((err) => {
         console.log(err);
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   function handleEditAvatarClick() {
@@ -119,11 +137,6 @@ function App() {
     setSelectedCard(card);
     setImagePopupOpen(true);
   }
-
-  const handleDeleteCardClick = (card) => {
-    setCardToDelete(card);
-    setIsConfirmPopupOpen(true);
-  };
 
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
@@ -157,6 +170,7 @@ function App() {
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
           isLoading={isLoading}
+          handleEscClose={handleEscClose}
         />
 
         <EditAvatarPopup
@@ -164,13 +178,15 @@ function App() {
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
           isLoading={isLoading}
+          handleEscClose={handleEscClose}
         />
 
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
-          onAddCard={handleAddCard}
+          onAddPlace={handleAddCard}
           isLoading={isLoading}
+          handleEscClose={handleEscClose}
         />
         <ImagePopup
           onClose={closeAllPopups}
